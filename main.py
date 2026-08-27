@@ -1,4 +1,5 @@
 # Import necessary libraries for the YouTube bot
+import os
 import gradio as gr
 import re  #For extracting video id
 from youtube_transcript_api import YouTubeTranscriptApi  # For extracting transcripts from YouTube videos
@@ -80,13 +81,13 @@ def setup_credentials():
     model_id = "ibm/granite-8b-code-instruct"
    
     # Set up the credentials by specifying the URL for IBM Watson services
-    credentials = Credentials(url="https://us-south.ml.cloud.ibm.com")
-   
+    credentials = Credentials(url=os.environ.get("WATSONX_URL", "https://us-south.ml.cloud.ibm.com"))
+
     # Create an API client using the credentials
     client = APIClient(credentials)
-   
+
     # Define the project ID associated with the WatsonX platform
-    project_id = "skills-network"
+    project_id = os.environ.get("WATSONX_PROJECT_ID", "skills-network")
    
     # Return the model ID, credentials, client, and project ID for later use
     return model_id, credentials, client, project_id
